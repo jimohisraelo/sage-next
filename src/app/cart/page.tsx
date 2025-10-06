@@ -26,7 +26,7 @@ export default function CartPage() {
     });
     message += `\nTotal: $${total.toFixed(2)}`;
 
-    const phoneNumber = "2348012345678";
+    const phoneNumber = "2348137434165";
     return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
   };
 

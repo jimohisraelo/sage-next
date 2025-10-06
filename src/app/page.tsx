@@ -22,11 +22,12 @@ export default function HomePage() {
   const newDropSettings = {
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 600,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    swipeToSlide: true,
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 2 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
@@ -93,8 +94,10 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="p-5 text-center">
-                  <h3 className="font-semibold text-xl">{item.name}</h3>
-                  <p className="text-gray-600">{item.price}</p>
+                  <h3 className="font-semibold text-xl text-black">
+                    {item.name}
+                  </h3>
+                  <p className="text-gray-800 font-medium">{item.price}</p>
                   <Link
                     href="/shop"
                     className="mt-3 inline-block bg-black text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition"
@@ -121,35 +124,6 @@ export default function HomePage() {
           </p>
         </div>
       </section>
-
-      {/* ✅ Categories Section */}
-      {/* <section className="py-20 bg-gray-50">
-        <h2 className="text-4xl font-bold text-center mb-12">
-          Shop by Category
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-7xl mx-auto px-6">
-          {[
-            { title: "T-Shirts", img: "/images/drop2.png" },
-            { title: "Jeans", img: "/images/drop3.png" },
-            { title: "Dresses", img: "/images/drop4.png" },
-          ].map((cat, index) => (
-            <div
-              key={index}
-              className="relative h-72 rounded-xl overflow-hidden shadow-lg group"
-            >
-              <Image
-                src={cat.img}
-                alt={cat.title}
-                fill
-                className="object-cover group-hover:scale-110 transition duration-500"
-              />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <h3 className="text-white text-2xl font-bold">{cat.title}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section> */}
 
       {/* ✅ Why Choose Us */}
       <section className="py-24 px-8 text-center w-full bg-gradient-to-b from-white via-gray-700 to-black">
@@ -196,9 +170,9 @@ export default function HomePage() {
           <input
             type="email"
             placeholder="Enter your email"
-            className="px-4 py-2 rounded-l-lg w-72 text-white border border-gray-300"
+            className="px-4 py-2 rounded-l-lg w-72 text-white border border-gray-300 bg-transparent focus:outline-none"
           />
-          <button className="px-4 py-2 bg-black text-white rounded-r-lg border border-gray-300 hover:bg-gray-800">
+          <button className="px-4 py-2 bg-white text-black rounded-r-lg border border-gray-300 hover:bg-gray-200 transition">
             Subscribe
           </button>
         </div>
