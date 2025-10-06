@@ -115,7 +115,7 @@ export default function HomePage() {
           <p className="text-gray-700 text-xl leading-relaxed">
             We believe fashion should be stylish, comfortable, and affordable.
             Our mission is to bring you the best outfits that elevate your
-            confidence and redefine your everyday look. Whether it's a casual
+            confidence and redefine your everyday look. Whether it&apos;s a casual
             streetwear vibe or a classy evening fit, our collections are
             designed with you in mind.
           </p>
