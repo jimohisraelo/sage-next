@@ -1,12 +1,8 @@
-// ============================================
-// COMPLETE SINGLE-FILE NEXT.JS APP
-// FILE: src/app/page.tsx
-// ============================================
-
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ShoppingCart, Menu, X, Instagram, Facebook, Truck, Shield, Star, TrendingUp } from 'lucide-react';
+import Image from 'next/image'; // Import Next.js Image component
 
 // ============================================
 // PRODUCTS DATA
@@ -130,8 +126,8 @@ function CartProvider({ children }: { children: ReactNode }) {
     if (stored) {
       try {
         setCart(JSON.parse(stored));
-      } catch (e) {
-        console.error('Failed to load cart');
+      } catch (error) {
+        console.error('Failed to load cart', error);
       }
     }
   }, []);
@@ -191,7 +187,7 @@ function useCart() {
 // NAVBAR COMPONENT
 // ============================================
 
-function Navbar({ currentPage, setCurrentPage }: { currentPage: string; setCurrentPage: (page: string) => void }) {
+function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { cart } = useCart();
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -377,15 +373,19 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
               className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2"
             >
               <div className="relative h-80 overflow-hidden">
-                <img
+                <Image
                   src={product.image}
                   alt={product.name}
+                  fill
                   className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
-                <img
+                <Image
                   src={product.hoverImage}
                   alt={product.name}
+                  fill
                   className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
               </div>
@@ -402,7 +402,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
       <section className="py-20 px-6 bg-gray-50">
         <div className="text-center mb-12">
           <h2 className="text-5xl font-bold mb-4">New Arrivals</h2>
-          <p className="text-gray-600 text-lg">Fresh drops you can't miss</p>
+          <p className="text-gray-600 text-lg">Fresh drops you can&apos;t miss</p>
         </div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {newArrivals.map((product) => (
@@ -418,15 +418,19 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
                 <div className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full text-xs font-bold z-10">
                   NEW
                 </div>
-                <img
+                <Image
                   src={product.image}
                   alt={product.name}
+                  fill
                   className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
-                <img
+                <Image
                   src={product.hoverImage}
                   alt={product.name}
+                  fill
                   className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
               </div>
               <div className="p-6 text-center">
@@ -448,7 +452,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
             to empower your personal style.
           </p>
           <p className="text-lg text-gray-400 leading-relaxed">
-            We believe fashion is more than clothing—it's self-expression, confidence, and individuality.
+            We believe fashion is more than clothing—it&apos;s self-expression, confidence, and individuality.
           </p>
         </div>
       </section>
@@ -529,15 +533,19 @@ function ShopPage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
             className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2"
           >
             <div className="relative h-80 overflow-hidden">
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
+                fill
                 className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
-              <img
+              <Image
                 src={product.hoverImage}
                 alt={product.name}
+                fill
                 className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
             </div>
             <div className="p-6 text-center">
@@ -570,25 +578,43 @@ function ProductPage({ product, setCurrentPage }: { product: Product; setCurrent
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
         <div>
           <div className="relative h-[600px] mb-4 rounded-2xl overflow-hidden shadow-xl">
-            <img src={currentImage} alt={product.name} className="w-full h-full object-cover" />
+            <Image
+              src={currentImage}
+              alt={product.name}
+              fill
+              className="w-full h-full object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </div>
           <div className="flex gap-4">
-            <img
-              src={product.image}
-              alt="View 1"
+            <div
               onClick={() => setCurrentImage(product.image)}
-              className={`w-24 h-24 object-cover rounded-lg cursor-pointer border-4 transition ${
+              className={`relative w-24 h-24 cursor-pointer border-4 transition rounded-lg ${
                 currentImage === product.image ? 'border-black' : 'border-gray-200 hover:border-gray-400'
               }`}
-            />
-            <img
-              src={product.hoverImage}
-              alt="View 2"
+            >
+              <Image
+                src={product.image}
+                alt="View 1"
+                fill
+                className="object-cover rounded-lg"
+                sizes="96px"
+              />
+            </div>
+            <div
               onClick={() => setCurrentImage(product.hoverImage)}
-              className={`w-24 h-24 object-cover rounded-lg cursor-pointer border-4 transition ${
+              className={`relative w-24 h-24 cursor-pointer border-4 transition rounded-lg ${
                 currentImage === product.hoverImage ? 'border-black' : 'border-gray-200 hover:border-gray-400'
               }`}
-            />
+            >
+              <Image
+                src={product.hoverImage}
+                alt="View 2"
+                fill
+                className="object-cover rounded-lg"
+                sizes="96px"
+              />
+            </div>
           </div>
         </div>
 
@@ -664,7 +690,7 @@ function CartPage() {
         <div>
           <ShoppingCart className="w-24 h-24 mx-auto mb-6 text-gray-300" />
           <h1 className="text-4xl font-bold mb-4">Your Cart is Empty</h1>
-          <p className="text-gray-600 mb-8 text-lg">Looks like you haven't added anything yet!</p>
+          <p className="text-gray-600 mb-8 text-lg">Looks like you haven&apos;t added anything yet!</p>
         </div>
       </div>
     );
@@ -679,7 +705,15 @@ function CartPage() {
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
           {cart.map((item, idx) => (
             <div key={`${item.id}-${item.size}-${idx}`} className="flex items-center gap-6 pb-8 mb-8 border-b last:border-b-0 last:pb-0 last:mb-0">
-              <img src={item.image} alt={item.name} className="w-32 h-32 object-cover rounded-lg shadow-md" />
+              <div className="relative w-32 h-32">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  fill
+                  className="object-cover rounded-lg shadow-md"
+                  sizes="128px"
+                />
+              </div>
               <div className="flex-grow">
                 <h3 className="font-bold text-2xl mb-1">{item.name}</h3>
                 <p className="text-gray-500 mb-2">Size: <span className="font-semibold">{item.size}</span></p>
@@ -720,7 +754,7 @@ function CartPage() {
             </div>
             <div className="flex justify-between text-lg">
               <span className="text-gray-600">Shipping:</span>
-              <span className="font-semibold">{shipping === 0 ? 'FREE' : `${shipping.toFixed(2)}`}</span>
+              <span className="font-semibold">{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
             </div>
             {subtotal > 0 && subtotal < 50 && (
               <p className="text-sm text-gray-500">Add ${(50 - subtotal).toFixed(2)} more for free shipping!</p>
@@ -773,7 +807,7 @@ function AboutPage() {
             We believe fashion should be accessible, sustainable, and timeless.
           </p>
           <p>
-            From our signature tees to our statement outerwear, SAGE is more than clothing—it's
+            From our signature tees to our statement outerwear, SAGE is more than clothing—it&apos;s
             a lifestyle, a community, and a movement toward conscious fashion.
           </p>
         </div>
@@ -793,7 +827,7 @@ export default function App() {
   return (
     <CartProvider>
       <div className="min-h-screen bg-white">
-        <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <Navbar setCurrentPage={setCurrentPage} />
         <main className="pt-20">
           {currentPage === 'home' && (
             <HomePage setCurrentPage={setCurrentPage} setSelectedProduct={setSelectedProduct} />
