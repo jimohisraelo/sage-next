@@ -1,8 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ShoppingCart, Menu, X, Instagram, Facebook, Truck, Shield, Star, TrendingUp } from 'lucide-react';
-import Image from 'next/image'; // Import Next.js Image component
+import { ShoppingCart, Menu, X, Instagram, Facebook, Truck, Shield, Star, TrendingUp, ArrowLeft, Heart, Share2, Package, Check } from 'lucide-react';
+import Image from 'next/image';
 
 // TikTok Icon Component
 const TikTokIcon = () => (
@@ -18,86 +18,127 @@ const TikTokIcon = () => (
 const products = [
   {
     id: 1,
-    name: "Classic Black Tee",
+    name: "Faith Over Fear Tee",
     price: 25,
     category: "shirts",
-    image: "/images/shirt1.jpg",
-    hoverImage: "/images/shirt2.jpg",
+    images: [
+      "/images/shirt1.jpg",
+      "/images/shirt2.jpg",
+      "/images/shirt3.jpg"
+    ],
     sizes: ["S", "M", "L", "XL"],
-    description: "Premium cotton T-shirt with a classic fit. Soft, breathable, and perfect for everyday wear.",
-    isLatestDrop: true
+    description: "Premium cotton T-shirt with faith-inspired design. Soft, breathable, and perfect for everyday wear while expressing your faith.",
+    isLatestDrop: true,
+    features: ["100% Premium Cotton", "Machine Washable", "Unisex Fit", "Faith-inspired Design"]
   },
   {
     id: 2,
-    name: "White Essential Tee",
+    name: "Grace Essential Tee",
     price: 25,
     category: "shirts",
-    image: "/images/white1.jpg",
-    hoverImage: "/images/white3.jpg",
+    images: [
+      "/images/white1.jpg",
+      "/images/white3.jpg"
+    ],
     sizes: ["S", "M", "L", "XL"],
-    description: "A wardrobe staple. Clean, minimalist, and endlessly versatile.",
-    isLatestDrop: true
+    description: "A wardrobe staple with clean design. Represent your faith with style and elegance.",
+    isLatestDrop: true,
+    features: ["100% Premium Cotton", "Machine Washable", "Classic Fit", "Minimalist Design"]
   },
   {
     id: 3,
-    name: "Oversized Black Hoodie",
+    name: "Kingdom Oversized Hoodie",
     price: 45,
     category: "hoodies",
-    image: "/images/hoodie1.jpg",
-    hoverImage: "/images/hoodie3.jpg",
+    images: [
+      "/images/hoodie1.jpg",
+      "/images/hoodie3.jpg",
+      "/images/hoodie2.jpg",
+      "/images/hoodie4.jpg"
+    ],
     sizes: ["S", "M", "L", "XL"],
-    description: "Ultra-comfortable oversized hoodie with premium fleece lining.",
-    isLatestDrop: true
+    description: "Ultra-comfortable oversized hoodie with premium fleece lining. Wear your faith boldly.",
+    features: ["Premium Fleece Lining", "Oversized Fit", "Kangaroo Pocket", "Drawstring Hood"]
   },
   {
     id: 4,
-    name: "Full Black Cap",
+    name: "Blessed Cap",
     price: 20,
     category: "caps",
-    image: "/images/blackcap1.jpg",
-    hoverImage: "/images/blackcap2.jpg",
+    images: [
+      "/images/blackcap1.jpg",
+      "/images/blackcap2.jpg"
+    ],
     sizes: ["One Size"],
-    description: "Adjustable snapback cap with embroidered logo."
+    description: "Adjustable snapback cap with faith-based embroidered logo.",
+    features: ["Adjustable Snapback", "Embroidered Logo", "Breathable Fabric", "One Size Fits Most"]
   },
   {
     id: 5,
-    name: "Canvas Tote Bag",
+    name: "Gospel Tote Bag",
     price: 18,
     category: "bags",
-    image: "/images/tote1.jpg",
-    hoverImage: "/images/vision.jpg",
+    images: [
+      "/images/tote1.jpg",
+      "/images/vision.jpg"
+    ],
     sizes: ["One Size"],
-    description: "Durable canvas tote with reinforced handles. Perfect for everyday use."
+    description: "Durable canvas tote with reinforced handles. Carry your faith wherever you go.",
+    features: ["Durable Canvas", "Reinforced Handles", "Large Capacity", "Faith-based Print"]
   },
   {
     id: 6,
-    name: "White & Black Cap",
+    name: "Faithful Cap",
     price: 20,
     category: "caps",
-    image: "/images/cap1.jpg",
-    hoverImage: "/images/cap2.jpg",
+    images: [
+      "/images/cap1.jpg",
+      "/images/cap2.jpg"
+    ],
     sizes: ["One Size"],
-    description: "Classic two-tone cap with adjustable strap."
+    description: "Classic two-tone cap with adjustable strap and faith-inspired design.",
+    features: ["Two-Tone Design", "Adjustable Strap", "Structured Crown", "One Size Fits Most"]
   },
   {
     id: 7,
-    name: "Black Beanie",
+    name: "Worship Beanie",
     price: 15,
     category: "bonnets",
-    image: "/images/beanie1.jpg",
-    hoverImage: "/images/beanie2.jpg",
+    images: [
+      "/images/beanie1.jpg",
+      "/images/beanie2.jpg"
+    ],
     sizes: ["One Size"],
-    description: "Soft knit beanie to keep you warm in style."
+    description: "Soft knit beanie to keep you warm while expressing your faith in style.",
+    features: ["Soft Acrylic Blend", "Stretchy Fit", "Warm & Cozy", "Faith-inspired Logo"]
   },
   {
     id: 8,
-    name: "Striped Polo Shirt",
+    name: "Redeemed Polo Shirt",
     price: 35,
     category: "shirts",
-    image: "/images/polo1.jpg",
-    hoverImage: "/images/polo2.jpg",
+    images: [
+      "/images/polo1.jpg",
+      "/images/polo2.jpg"
+    ],
     sizes: ["S", "M", "L", "XL"],
-    description: "Classic polo with modern stripes. Smart casual perfection."
+    description: "Classic polo with modern stripes and faith-based messaging. Smart casual perfection.",
+    features: ["Premium Cotton Blend", "Classic Polo Design", "Modern Stripes", "Faith-based Messaging"]
+  },
+  {
+    id: 9,
+    name: "Redeemed Sweatpants",
+    price: 100,
+    category: "shirts",
+    images: [
+      "/images/sp1.jpg",
+      "/images/sp2.jpg",
+      "/images/sp3.jpg",
+    ],
+    sizes: ["S", "M", "L", "XL"],
+    isLatestDrop: true,
+    description: "Classic polo with modern stripes and faith-based messaging. Smart casual perfection.",
+    features: ["Premium Cotton Blend", "Classic Polo Design", "Modern Stripes", "Faith-based Messaging"]
   }
 ];
 
@@ -109,12 +150,12 @@ type Product = {
   id: number;
   name: string;
   price: number;
-  image: string;
-  hoverImage: string;
+  images: string[];
   category: string;
   sizes: string[];
   description: string;
   isLatestDrop?: boolean;
+  features?: string[];
 };
 
 type CartItem = Product & { quantity: number; size: string };
@@ -203,7 +244,6 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
   const { cart } = useCart();
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Save current page to localStorage
   const handlePageChange = (page: string) => {
     setCurrentPage(page);
     localStorage.setItem('sage-current-page', page);
@@ -212,9 +252,15 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
   return (
     <nav className="fixed top-0 w-full bg-black shadow-lg z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div onClick={() => handlePageChange('home')} className="flex items-center gap-2 cursor-pointer">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black font-bold">
-            S
+        <div onClick={() => handlePageChange('home')} className="flex items-center gap-3 cursor-pointer">
+          <div className="relative w-12 h-12">
+            <Image
+              src="/images/logo.jpg"
+              alt="SAGE Logo"
+              fill
+              className="rounded-full object-cover"
+              sizes="48px"
+            />
           </div>
           <span className="text-2xl font-bold text-white">SAGE</span>
         </div>
@@ -292,7 +338,7 @@ function Footer({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="text-white font-bold text-xl mb-4">SAGE</h3>
-            <p className="text-sm text-gray-400">Elevated street fashion for the modern individual.</p>
+            <p className="text-sm text-gray-400">Faith-inspired fashion for the modern believer. Wear your faith boldly.</p>
           </div>
           <div>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
@@ -306,20 +352,20 @@ function Footer({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
           <div>
             <h4 className="text-white font-semibold mb-4">Follow Us</h4>
             <div className="flex gap-4">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-gray-400">
+              <a href="https://www.instagram.com/sagewearsbrand/#" target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-gray-400">
                 <Instagram className="w-6 h-6" />
               </a>
-              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-gray-400">
+              <a href="https://www.tiktok.com/@sagewearsbrand" target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-gray-400">
                 <TikTokIcon />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-gray-400">
+              <a href="https://www.facebook.com/101567422567950" target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-gray-400">
                 <Facebook className="w-6 h-6" />
               </a>
             </div>
           </div>
         </div>
         <div className="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} SAGE. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} SAGE. All rights reserved. Faith meets Fashion.</p>
         </div>
       </div>
     </footer>
@@ -342,6 +388,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
     handlePageChange('product');
+    localStorage.setItem('sage-selected-product', JSON.stringify(product));
   };
 
   return (
@@ -354,9 +401,9 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
         </div>
         <div className="relative z-10 text-center px-6">
           <h1 className="text-7xl md:text-9xl font-bold mb-6 tracking-tight text-white">SAGE</h1>
-          <p className="text-2xl md:text-3xl mb-4 text-gray-200 font-light">Elevated Street Fashion</p>
+          <p className="text-2xl md:text-3xl mb-4 text-gray-200 font-light">Where Faith Meets Fashion</p>
           <p className="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
-            Where contemporary design meets timeless style. Discover pieces that define you.
+            Express your faith through style. Contemporary Christian apparel designed for believers who want to make a statement.
           </p>
           <button
             onClick={() => handlePageChange('shop')}
@@ -367,7 +414,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
         </div>
       </section>
 
-      {/* Latest Drop Section - ATTRACTIVE */}
+      {/* Latest Drop Section */}
       <section className="py-24 px-6 bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -382,7 +429,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
           </div>
           <h2 className="text-6xl md:text-7xl font-bold mb-4 text-white">Latest Drop</h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Fresh styles just landed. Limited quantities available. Don&apos;t miss out.
+            Fresh faith-inspired styles just landed. Limited quantities. Walk in faith, dress in purpose.
           </p>
         </div>
 
@@ -398,14 +445,14 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
                   NEW DROP
                 </div>
                 <Image
-                  src={product.image}
+                  src={product.images[0]}
                   alt={product.name}
                   fill
                   className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <Image
-                  src={product.hoverImage}
+                  src={product.images[1] || product.images[0]}
                   alt={product.name}
                   fill
                   className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700"
@@ -441,12 +488,12 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
           <div className="text-center">
             <Star className="w-12 h-12 mx-auto mb-4 text-black" />
             <h3 className="font-bold text-lg mb-2 text-black">Premium Quality</h3>
-            <p className="text-gray-600 text-sm">Top-tier materials</p>
+            <p className="text-gray-600 text-sm">Faith-inspired designs</p>
           </div>
           <div className="text-center">
             <TrendingUp className="w-12 h-12 mx-auto mb-4 text-black" />
             <h3 className="font-bold text-lg mb-2 text-black">Trending Styles</h3>
-            <p className="text-gray-600 text-sm">Latest fashion drops</p>
+            <p className="text-gray-600 text-sm">Latest faith fashion</p>
           </div>
         </div>
       </section>
@@ -455,7 +502,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
       <section className="py-20 px-6 bg-white">
         <div className="text-center mb-12">
           <h2 className="text-5xl font-bold mb-4 text-black">Featured Collection</h2>
-          <p className="text-gray-600 text-lg">Handpicked styles just for you</p>
+          <p className="text-gray-600 text-lg">Handpicked faith-inspired styles</p>
         </div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {featured.map((product) => (
@@ -466,14 +513,14 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
             >
               <div className="relative h-80 overflow-hidden">
                 <Image
-                  src={product.image}
+                  src={product.images[0]}
                   alt={product.name}
                   fill
                   className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
                 <Image
-                  src={product.hoverImage}
+                  src={product.images[1] || product.images[0]}
                   alt={product.name}
                   fill
                   className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -493,14 +540,13 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
       {/* Philosophy Section */}
       <section className="py-24 px-6 bg-black text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-bold mb-8 text-white">Our Philosophy</h2>
+          <h2 className="text-5xl font-bold mb-8 text-white">Our Mission</h2>
           <p className="text-xl text-gray-200 leading-relaxed mb-6">
-            SAGE represents the intersection of timeless design and contemporary streetwear.
-            Every piece is crafted with attention to detail, quality materials, and a vision
-            to empower your personal style.
+            SAGE is more than a clothing brand—it's a movement. We believe fashion and faith can coexist beautifully. 
+            Every piece is designed to help you express your beliefs boldly and stylishly.
           </p>
           <p className="text-lg text-gray-300 leading-relaxed">
-            We believe fashion is more than clothing—it&apos;s self-expression, confidence, and individuality.
+            "Let your light shine before others, that they may see your good deeds." - Matthew 5:16
           </p>
         </div>
       </section>
@@ -510,7 +556,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6 text-black">Join the SAGE Community</h2>
           <p className="text-lg text-gray-700 mb-8">
-            Be the first to know about new drops, exclusive deals, and style tips.
+            Be the first to know about new faith-inspired drops, exclusive deals, and devotional content.
           </p>
           <div className="flex justify-center gap-4 max-w-md mx-auto">
             <input
@@ -553,12 +599,13 @@ function ShopPage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
     setSelectedProduct(product);
     setCurrentPage('product');
     localStorage.setItem('sage-current-page', 'product');
+    localStorage.setItem('sage-selected-product', JSON.stringify(product));
   };
 
   return (
     <div className="py-24 px-6 min-h-screen bg-gray-50">
       <h1 className="text-5xl font-bold text-center mb-4 text-black">Shop Collection</h1>
-      <p className="text-center text-gray-600 mb-12 text-lg">Discover your next favorite piece</p>
+      <p className="text-center text-gray-600 mb-12 text-lg">Faith-inspired apparel for every believer</p>
 
       <div className="flex flex-wrap justify-center gap-4 mb-12">
         {categories.map((cat) => (
@@ -585,14 +632,14 @@ function ShopPage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
           >
             <div className="relative h-80 overflow-hidden">
               <Image
-                src={product.image}
+                src={product.images[0]}
                 alt={product.name}
                 fill
                 className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
               <Image
-                src={product.hoverImage}
+                src={product.images[1] || product.images[0]}
                 alt={product.name}
                 fill
                 className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -611,13 +658,31 @@ function ShopPage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
 }
 
 // ============================================
-// PRODUCT PAGE
+// PRODUCT PAGE - UPDATED WITH RECOMMENDATIONS
 // ============================================
 
-function ProductPage({ product, setCurrentPage }: { product: Product; setCurrentPage: (page: string) => void }) {
+function ProductPage({ product, setCurrentPage, setSelectedProduct }: { 
+  product: Product; 
+  setCurrentPage: (page: string) => void;
+  setSelectedProduct: (product: Product) => void;
+}) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
-  const [currentImage, setCurrentImage] = useState(product.image);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+
+  // Get recommended products (same category, excluding current product)
+  const recommendedProducts = products
+    .filter(p => p.id !== product.id && p.category === product.category)
+    .slice(0, 4);
+
+  // If not enough same-category products, add random products
+  if (recommendedProducts.length < 4) {
+    const additionalProducts = products
+      .filter(p => p.id !== product.id && !recommendedProducts.includes(p))
+      .slice(0, 4 - recommendedProducts.length);
+    recommendedProducts.push(...additionalProducts);
+  }
 
   const handleAddToCart = () => {
     addToCart(product, selectedSize);
@@ -629,88 +694,255 @@ function ProductPage({ product, setCurrentPage }: { product: Product; setCurrent
     localStorage.setItem('sage-current-page', page);
   };
 
+  const handleProductClick = (clickedProduct: Product) => {
+    setSelectedProduct(clickedProduct);
+    localStorage.setItem('sage-selected-product', JSON.stringify(clickedProduct));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="py-24 px-6 min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
-        <div>
-          <div className="relative h-[600px] mb-4 rounded-2xl overflow-hidden shadow-xl">
-            <Image
-              src={currentImage}
-              alt={product.name}
-              fill
-              className="w-full h-full object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
-          <div className="flex gap-4">
-            <div
-              onClick={() => setCurrentImage(product.image)}
-              className={`relative w-24 h-24 cursor-pointer border-4 transition rounded-lg ${
-                currentImage === product.image ? 'border-black' : 'border-gray-200 hover:border-gray-400'
-              }`}
-            >
-              <Image
-                src={product.image}
-                alt="View 1"
-                fill
-                className="object-cover rounded-lg"
-                sizes="96px"
-              />
-            </div>
-            <div
-              onClick={() => setCurrentImage(product.hoverImage)}
-              className={`relative w-24 h-24 cursor-pointer border-4 transition rounded-lg ${
-                currentImage === product.hoverImage ? 'border-black' : 'border-gray-200 hover:border-gray-400'
-              }`}
-            >
-              <Image
-                src={product.hoverImage}
-                alt="View 2"
-                fill
-                className="object-cover rounded-lg"
-                sizes="96px"
-              />
-            </div>
-          </div>
-        </div>
+      <div className="max-w-7xl mx-auto">
+        {/* Back Button */}
+        <button
+          onClick={() => handlePageChange('shop')}
+          className="flex items-center gap-2 text-gray-600 hover:text-black mb-8 transition"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Shop
+        </button>
 
-        <div className="flex flex-col justify-center">
-          <h1 className="text-5xl font-bold mb-4 text-black">{product.name}</h1>
-          <p className="text-4xl font-bold mb-8 text-black">${product.price}</p>
-          <p className="text-gray-700 text-lg mb-10 leading-relaxed">{product.description}</p>
-
-          <div className="mb-10">
-            <label className="block font-bold mb-4 text-xl text-black">Select Size:</label>
-            <div className="flex gap-3 flex-wrap">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`px-8 py-4 border-2 rounded-lg font-bold transition transform hover:scale-105 ${
-                    selectedSize === size
-                      ? 'bg-black text-white border-black'
-                      : 'border-gray-300 hover:border-black text-black'
+        {/* Main Product Section */}
+        <div className="grid lg:grid-cols-2 gap-12 mb-20">
+          <div>
+            <div className="relative h-[600px] mb-4 rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src={product.images[currentImageIndex]}
+                alt={product.name}
+                fill
+                className="w-full h-full object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              {product.isLatestDrop && (
+                <div className="absolute top-4 left-4 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold z-10 animate-pulse">
+                  NEW DROP
+                </div>
+              )}
+            </div>
+            <div className="flex gap-4 overflow-x-auto">
+              {product.images.map((img, index) => (
+                <div
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`relative w-24 h-24 cursor-pointer border-4 transition rounded-lg flex-shrink-0 ${
+                    currentImageIndex === index ? 'border-black' : 'border-gray-200 hover:border-gray-400'
                   }`}
                 >
-                  {size}
-                </button>
+                  <Image
+                    src={img}
+                    alt={`View ${index + 1}`}
+                    fill
+                    className="object-cover rounded-lg"
+                    sizes="96px"
+                  />
+                </div>
               ))}
             </div>
           </div>
 
-          <div className="space-y-4">
-            <button
-              onClick={handleAddToCart}
-              className="w-full bg-black text-white py-5 rounded-lg text-xl font-bold hover:bg-gray-800 transition transform hover:scale-105 shadow-lg"
-            >
-              Add to Cart
-            </button>
-            <button
-              onClick={() => handlePageChange('shop')}
-              className="w-full border-2 border-black text-black py-5 rounded-lg text-xl font-bold hover:bg-gray-100 transition"
-            >
-              Continue Shopping
-            </button>
+          <div className="flex flex-col justify-center">
+            <div className="mb-6">
+              <h1 className="text-5xl font-bold mb-4 text-black">{product.name}</h1>
+              <div className="flex items-center gap-4 mb-4">
+                <p className="text-4xl font-bold text-black">${product.price}</p>
+                {product.isLatestDrop && (
+                  <span className="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                    New Arrival
+                  </span>
+                )}
+              </div>
+              <p className="text-gray-700 text-lg leading-relaxed">{product.description}</p>
+            </div>
+
+            {/* Product Features */}
+            {product.features && product.features.length > 0 && (
+              <div className="mb-10">
+                <h3 className="font-bold text-xl mb-4 text-black">Product Features</h3>
+                <div className="space-y-2">
+                  {product.features.map((feature, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <Check className="w-5 h-5 text-green-600" />
+                      <span className="text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Size Selection */}
+            <div className="mb-10">
+              <div className="flex items-center justify-between mb-4">
+                <label className="font-bold text-xl text-black">Select Size:</label>
+                <button className="text-sm text-gray-600 hover:text-black transition">
+                  Size Guide
+                </button>
+              </div>
+              <div className="flex gap-3 flex-wrap">
+                {product.sizes.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={`px-8 py-4 border-2 rounded-lg font-bold transition transform hover:scale-105 ${
+                      selectedSize === size
+                        ? 'bg-black text-white border-black'
+                        : 'border-gray-300 hover:border-black text-black'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quantity */}
+            <div className="mb-10">
+              <label className="font-bold text-xl mb-4 block text-black">Quantity:</label>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                    className="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-200 transition font-bold text-xl text-black"
+                  >
+                    -
+                  </button>
+                  <span className="font-bold text-2xl w-12 text-center text-black">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(prev => prev + 1)}
+                    className="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-200 transition font-bold text-xl text-black"
+                  >
+                    +
+                  </button>
+                </div>
+                <div className="text-gray-600">
+                  Only {Math.floor(Math.random() * 20) + 5} items left!
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-4">
+              <button
+                onClick={handleAddToCart}
+                className="w-full bg-black text-white py-5 rounded-lg text-xl font-bold hover:bg-gray-800 transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
+              >
+                <ShoppingCart className="w-6 h-6" />
+                Add to Cart - ${(product.price * quantity).toFixed(2)}
+              </button>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <a
+                  href={`https://wa.me/2348137434165?text=${encodeURIComponent(`I want to order: ${product.name} (Size: ${selectedSize}, Quantity: ${quantity})`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-600 text-white py-4 rounded-lg text-lg font-bold hover:bg-green-700 transition text-center"
+                >
+                  Buy on WhatsApp
+                </a>
+                <button
+                  onClick={() => handlePageChange('shop')}
+                  className="border-2 border-black text-black py-4 rounded-lg text-lg font-bold hover:bg-gray-100 transition"
+                >
+                  Continue Shopping
+                </button>
+              </div>
+            </div>
+
+            {/* Additional Info */}
+            <div className="mt-10 pt-8 border-t border-gray-200 grid grid-cols-2 gap-6">
+              <div className="flex items-center gap-3">
+                <Truck className="w-6 h-6 text-gray-600" />
+                <div>
+                  <p className="font-semibold text-black">Free Shipping</p>
+                  <p className="text-sm text-gray-600">On orders over $50</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Shield className="w-6 h-6 text-gray-600" />
+                <div>
+                  <p className="font-semibold text-black">Secure Payment</p>
+                  <p className="text-sm text-gray-600">100% protected</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Package className="w-6 h-6 text-gray-600" />
+                <div>
+                  <p className="font-semibold text-black">Easy Returns</p>
+                  <p className="text-sm text-gray-600">30-day return policy</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Star className="w-6 h-6 text-gray-600" />
+                <div>
+                  <p className="font-semibold text-black">Premium Quality</p>
+                  <p className="text-sm text-gray-600">Faith-inspired design</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Recommended Products Section */}
+        <div className="border-t border-gray-200 pt-12">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold mb-4 text-black">You Might Also Like</h2>
+            <p className="text-gray-600 text-lg">Complete your faith-inspired look with these matching pieces</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {recommendedProducts.map((recommendedProduct) => (
+              <div
+                key={recommendedProduct.id}
+                onClick={() => handleProductClick(recommendedProduct)}
+                className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2"
+              >
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={recommendedProduct.images[0]}
+                    alt={recommendedProduct.name}
+                    fill
+                    className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                  <Image
+                    src={recommendedProduct.images[1] || recommendedProduct.images[0]}
+                    alt={recommendedProduct.name}
+                    fill
+                    className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  {recommendedProduct.isLatestDrop && (
+                    <div className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                      NEW
+                    </div>
+                  )}
+                </div>
+                <div className="p-6 text-center">
+                  <h3 className="font-bold text-xl mb-2 text-black truncate">{recommendedProduct.name}</h3>
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <p className="text-lg font-semibold text-gray-900">${recommendedProduct.price}</p>
+                    {recommendedProduct.category === product.category && (
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                        {recommendedProduct.category}
+                      </span>
+                    )}
+                  </div>
+                  <button className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                    View Product
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -722,31 +954,59 @@ function ProductPage({ product, setCurrentPage }: { product: Product; setCurrent
 // CART PAGE
 // ============================================
 
-function CartPage() {
+function CartPage({ setCurrentPage, setSelectedProduct }: { 
+  setCurrentPage: (page: string) => void; 
+  setSelectedProduct: (product: Product) => void 
+}) {
   const { cart, addToCart, removeOne, removeAll, clearCart } = useCart();
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shipping = subtotal > 50 ? 0 : 5;
   const total = subtotal + shipping;
+  
+  // Get recommended products (exclude items already in cart)
+  const cartProductIds = cart.map(item => item.id);
+  const recommendedProducts = products
+    .filter(product => !cartProductIds.includes(product.id))
+    .slice(0, 4);
 
   const generateWhatsApp = () => {
     if (cart.length === 0) return '#';
     let msg = 'New Order from SAGE\n\n';
     cart.forEach((item) => {
-      msg += `${item.quantity}x ${item.name}\n  Size: ${item.size}\n  Price: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+      msg += `${item.quantity}x ${item.name}\n  Size: ${item.size}\n  Price: ${(item.price * item.quantity).toFixed(2)}\n\n`;
     });
-    msg += `Subtotal: $${subtotal.toFixed(2)}\n`;
-    msg += `Shipping: $${shipping.toFixed(2)}\n`;
-    msg += `Total: $${total.toFixed(2)}`;
+    msg += `Subtotal: ${subtotal.toFixed(2)}\n`;
+    msg += `Shipping: ${shipping.toFixed(2)}\n`;
+    msg += `Total: ${total.toFixed(2)}`;
     return `https://wa.me/2348137434165?text=${encodeURIComponent(msg)}`;
+  };
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setCurrentPage('product');
+    localStorage.setItem('sage-current-page', 'product');
+    localStorage.setItem('sage-selected-product', JSON.stringify(product));
+  };
+
+  const handleBackToShop = () => {
+    setCurrentPage('shop');
+    localStorage.setItem('sage-current-page', 'shop');
   };
 
   if (cart.length === 0) {
     return (
-      <div className="py-24 px-6 text-center min-h-screen bg-gray-50 flex items-center justify-center">
-        <div>
+      <div className="py-24 px-6 text-center min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+        <div className="max-w-lg">
           <ShoppingCart className="w-24 h-24 mx-auto mb-6 text-gray-300" />
           <h1 className="text-4xl font-bold mb-4 text-black">Your Cart is Empty</h1>
           <p className="text-gray-600 mb-8 text-lg">Looks like you haven&apos;t added anything yet!</p>
+          <button
+            onClick={handleBackToShop}
+            className="bg-black text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-800 transition flex items-center gap-2 mx-auto"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Continue Shopping
+          </button>
         </div>
       </div>
     );
@@ -757,85 +1017,154 @@ function CartPage() {
       <h1 className="text-5xl font-bold text-center mb-4 text-black">Shopping Cart</h1>
       <p className="text-center text-gray-600 mb-12 text-lg">{cart.length} {cart.length === 1 ? 'item' : 'items'} in your cart</p>
       
-      <div className="max-w-5xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          {cart.map((item, idx) => (
-            <div key={`${item.id}-${item.size}-${idx}`} className="flex items-center gap-6 pb-8 mb-8 border-b last:border-b-0 last:pb-0 last:mb-0">
-              <div className="relative w-32 h-32">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  fill
-                  className="object-cover rounded-lg shadow-md"
-                  sizes="128px"
-                />
-              </div>
-              <div className="flex-grow">
-                <h3 className="font-bold text-2xl mb-1 text-black">{item.name}</h3>
-                <p className="text-gray-500 mb-2">Size: <span className="font-semibold">{item.size}</span></p>
-                <p className="text-lg font-semibold text-gray-900">
-                  ${item.price} x {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Cart Items */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-black">Cart Items</h2>
                 <button
-                  onClick={() => removeOne(item.id, item.size)}
-                  className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-200 transition font-bold text-xl text-black"
+                  onClick={clearCart}
+                  className="text-red-600 hover:text-red-700 font-semibold transition"
                 >
-                  -
-                </button>
-                <span className="font-bold text-lg w-8 text-center text-black">{item.quantity}</span>
-                <button
-                  onClick={() => addToCart(item, item.size)}
-                  className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-200 transition font-bold text-xl text-black"
-                >
-                  +
-                </button>
-                <button
-                  onClick={() => removeAll(item.id, item.size)}
-                  className="ml-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-semibold"
-                >
-                  Remove
+                  Clear All
                 </button>
               </div>
+              
+              {cart.map((item, idx) => (
+                <div key={`${item.id}-${item.size}-${idx}`} className="flex items-center gap-6 pb-8 mb-8 border-b last:border-b-0 last:pb-0 last:mb-0">
+                  <div className="relative w-32 h-32 flex-shrink-0">
+                    <Image
+                      src={item.images[0]}
+                      alt={item.name}
+                      fill
+                      className="object-cover rounded-lg shadow-md"
+                      sizes="128px"
+                    />
+                  </div>
+                  <div className="flex-grow">
+                    <h3 className="font-bold text-2xl mb-1 text-black">{item.name}</h3>
+                    <p className="text-gray-500 mb-2">Size: <span className="font-semibold">{item.size}</span></p>
+                    <p className="text-lg font-semibold text-gray-900">
+                      ${item.price} x {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <button
+                      onClick={() => removeOne(item.id, item.size)}
+                      className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-200 transition font-bold text-xl text-black"
+                    >
+                      -
+                    </button>
+                    <span className="font-bold text-lg w-8 text-center text-black">{item.quantity}</span>
+                    <button
+                      onClick={() => addToCart(item, item.size)}
+                      className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-200 transition font-bold text-xl text-black"
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => removeAll(item.id, item.size)}
+                      className="ml-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-semibold"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="space-y-4 mb-6">
-            <div className="flex justify-between text-lg">
-              <span className="text-gray-600">Subtotal:</span>
-              <span className="font-semibold text-black">${subtotal.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-lg">
-              <span className="text-gray-600">Shipping:</span>
-              <span className="font-semibold text-black">{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
-            </div>
-            {subtotal > 0 && subtotal < 50 && (
-              <p className="text-sm text-gray-500">Add ${(50 - subtotal).toFixed(2)} more for free shipping!</p>
+            {/* Recommended Products */}
+            {recommendedProducts.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-xl p-8">
+                <h2 className="text-2xl font-bold mb-6 text-black">You Might Also Like</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {recommendedProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      onClick={() => handleProductClick(product)}
+                      className="group cursor-pointer"
+                    >
+                      <div className="relative h-48 mb-3 rounded-xl overflow-hidden">
+                        <Image
+                          src={product.images[0]}
+                          alt={product.name}
+                          fill
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          sizes="(max-width: 768px) 50vw, 25vw"
+                        />
+                      </div>
+                      <h3 className="font-semibold text-black truncate">{product.name}</h3>
+                      <p className="font-bold text-gray-900">${product.price}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
-            <div className="border-t pt-4 flex justify-between text-2xl font-bold">
-              <span className="text-black">Total:</span>
-              <span className="text-black">${total.toFixed(2)}</span>
-            </div>
           </div>
-          
-          <div className="space-y-4">
-            <a
-              href={generateWhatsApp()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full bg-green-600 text-white py-4 rounded-lg text-center text-lg font-bold hover:bg-green-700 transition transform hover:scale-105"
-            >
-              Order via WhatsApp
-            </a>
-            <button
-              onClick={clearCart}
-              className="w-full bg-gray-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-gray-600 transition"
-            >
-              Clear Cart
-            </button>
+
+          {/* Order Summary */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-2xl shadow-xl p-8 sticky top-24">
+              <h2 className="text-2xl font-bold mb-6 text-black">Order Summary</h2>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Subtotal:</span>
+                  <span className="font-semibold text-black">${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Shipping:</span>
+                  <span className="font-semibold text-black">{shipping === 0 ? 'FREE' : `${shipping.toFixed(2)}`}</span>
+                </div>
+                {subtotal > 0 && subtotal < 50 && (
+                  <p className="text-sm text-green-600 bg-green-50 p-3 rounded-lg">
+                    Add ${(50 - subtotal).toFixed(2)} more for free shipping!
+                  </p>
+                )}
+                <div className="border-t pt-4 flex justify-between text-2xl font-bold">
+                  <span className="text-black">Total:</span>
+                  <span className="text-black">${total.toFixed(2)}</span>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <a
+                  href={generateWhatsApp()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-green-600 text-white py-4 rounded-lg text-center text-lg font-bold hover:bg-green-700 transition transform hover:scale-105"
+                >
+                  Order via WhatsApp
+                </a>
+                <button
+                  onClick={handleBackToShop}
+                  className="w-full border-2 border-black text-black py-4 rounded-lg text-lg font-semibold hover:bg-black hover:text-white transition flex items-center justify-center gap-2"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                  Continue Shopping
+                </button>
+              </div>
+
+              {/* Additional Info */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <div className="flex items-start gap-3 mb-4">
+                  <Shield className="w-5 h-5 text-gray-600 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-black">Secure Checkout</p>
+                    <p className="text-sm text-gray-600">Your payment information is encrypted</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Truck className="w-5 h-5 text-gray-600 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-black">Free Shipping</p>
+                    <p className="text-sm text-gray-600">On orders over $50</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -854,17 +1183,21 @@ function AboutPage() {
         <h1 className="text-5xl font-bold text-center mb-12 text-black">About SAGE</h1>
         <div className="space-y-6 text-lg leading-relaxed text-gray-700">
           <p>
-            Founded in 2019, SAGE represents a new wave of streetwear that blends sophistication
-            with urban culture. Our mission is to create clothing that empowers individuals to
-            express their unique identity.
+            Founded in 2019, SAGE is more than a clothing brand—it&apos;s a faith movement. We believe that fashion and faith 
+            are not mutually exclusive. Our mission is to create contemporary Christian apparel that empowers believers 
+            to express their faith boldly and stylishly in everyday life.
           </p>
           <p>
-            Every piece in our collection is thoughtfully designed and crafted with premium materials.
-            We believe fashion should be accessible, sustainable, and timeless.
+            Every piece in our collection is thoughtfully designed with faith-inspired messaging and premium materials. 
+            We believe your wardrobe should reflect your values, and that you can look good while glorifying God.
           </p>
           <p>
-            From our signature tees to our statement outerwear, SAGE is more than clothing—it&apos;s
-            a lifestyle, a community, and a movement toward conscious fashion.
+            From our signature faith-based tees to our statement hoodies, SAGE represents a lifestyle of walking in 
+            purpose, dressed in faith. Join us in spreading the Gospel through fashion—one outfit at a time.
+          </p>
+          <p className="text-xl font-semibold text-black italic text-center mt-8">
+            &quot;Therefore, as God&apos;s chosen people, holy and dearly loved, clothe yourselves with compassion, 
+            kindness, humility, gentleness and patience.&quot; - Colossians 3:12
           </p>
         </div>
       </div>
@@ -879,14 +1212,37 @@ function AboutPage() {
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Restore page on mount
   useEffect(() => {
     const savedPage = localStorage.getItem('sage-current-page');
+    const savedProduct = localStorage.getItem('sage-selected-product');
+    
     if (savedPage) {
       setCurrentPage(savedPage);
     }
+    
+    if (savedProduct && (savedPage === 'product' || savedPage === 'shop')) {
+      try {
+        setSelectedProduct(JSON.parse(savedProduct));
+      } catch (error) {
+        console.error('Failed to load product:', error);
+      }
+    }
+    
+    setIsLoading(false);
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-black font-semibold">Loading SAGE...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <CartProvider>
@@ -900,9 +1256,15 @@ export default function App() {
             <ShopPage setCurrentPage={setCurrentPage} setSelectedProduct={setSelectedProduct} />
           )}
           {currentPage === 'product' && selectedProduct && (
-            <ProductPage product={selectedProduct} setCurrentPage={setCurrentPage} />
+            <ProductPage 
+              product={selectedProduct} 
+              setCurrentPage={setCurrentPage} 
+              setSelectedProduct={setSelectedProduct}
+            />
           )}
-          {currentPage === 'cart' && <CartPage />}
+          {currentPage === 'cart' && (
+            <CartPage setCurrentPage={setCurrentPage} setSelectedProduct={setSelectedProduct} />
+          )}
           {currentPage === 'about' && <AboutPage />}
         </main>
         <Footer setCurrentPage={setCurrentPage} />
