@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ShoppingCart, Menu, X, Instagram, Facebook, Truck, Shield, Star, TrendingUp, ArrowLeft, Heart, Share2, Package, Check } from 'lucide-react';
+import { ShoppingCart, Menu, X, Instagram, Facebook, Truck, Shield, Star, TrendingUp, ArrowLeft, Heart, Share2, Package, Check, Mail, Phone, MapPin } from 'lucide-react';
 import Image from 'next/image';
 
 // TikTok Icon Component
@@ -18,13 +18,12 @@ const TikTokIcon = () => (
 const products = [
   {
     id: 1,
-    name: "Faith Over Fear Tee",
-    price: 25,
+    name: "Basic Black Tee",
+    price: 15000,
     category: "shirts",
     images: [
       "/images/shirt1.jpg",
-      "/images/shirt2.jpg",
-      "/images/shirt3.jpg"
+      "/images/shirt2.jpg"
     ],
     sizes: ["S", "M", "L", "XL"],
     description: "Premium cotton T-shirt with faith-inspired design. Soft, breathable, and perfect for everyday wear while expressing your faith.",
@@ -33,28 +32,26 @@ const products = [
   },
   {
     id: 2,
-    name: "Grace Essential Tee",
-    price: 25,
+    name: "Basic White Tee",
+    price: 15000,
     category: "shirts",
     images: [
       "/images/white1.jpg",
-      "/images/white3.jpg"
+      "/images/white2.jpg"
     ],
     sizes: ["S", "M", "L", "XL"],
-    description: "A wardrobe staple with clean design. Represent your faith with style and elegance.",
+    description: "Premium cotton T-shirt with faith-inspired design. Soft, breathable, and perfect for everyday wear while expressing your faith.",
     isLatestDrop: true,
-    features: ["100% Premium Cotton", "Machine Washable", "Classic Fit", "Minimalist Design"]
+    features: ["100% Premium Cotton", "Machine Washable", "Unisex Fit", "Faith-inspired Design"]
   },
   {
     id: 3,
-    name: "Kingdom Oversized Hoodie",
-    price: 45,
+    name: "Hoodie",
+    price: 17999,
     category: "hoodies",
     images: [
       "/images/hoodie1.jpg",
-      "/images/hoodie3.jpg",
       "/images/hoodie2.jpg",
-      "/images/hoodie4.jpg"
     ],
     sizes: ["S", "M", "L", "XL"],
     description: "Ultra-comfortable oversized hoodie with premium fleece lining. Wear your faith boldly.",
@@ -62,51 +59,49 @@ const products = [
   },
   {
     id: 4,
-    name: "Blessed Cap",
-    price: 20,
+    name: "Baseball Cap",
+    price: 6000,
     category: "caps",
     images: [
       "/images/blackcap1.jpg",
       "/images/blackcap2.jpg"
     ],
     sizes: ["One Size"],
-    description: "Adjustable snapback cap with faith-based embroidered logo.",
+    description: "Adjustable baseball cap with embroidered logo.",
     features: ["Adjustable Snapback", "Embroidered Logo", "Breathable Fabric", "One Size Fits Most"]
   },
   {
     id: 5,
-    name: "Gospel Tote Bag",
-    price: 18,
+    name: "Tote Bag",
+    price: 5000,
     category: "bags",
     images: [
       "/images/tote1.jpg",
-      "/images/vision.jpg"
     ],
     sizes: ["One Size"],
-    description: "Durable canvas tote with reinforced handles. Carry your faith wherever you go.",
+    description: "Durable canvas tote with reinforced handles.",
     features: ["Durable Canvas", "Reinforced Handles", "Large Capacity", "Faith-based Print"]
   },
   {
     id: 6,
-    name: "Faithful Cap",
-    price: 20,
+    name: "Tucker Cap",
+    price: 6000,
     category: "caps",
     images: [
       "/images/cap1.jpg",
       "/images/cap2.jpg"
     ],
-    sizes: ["One Size"],
-    description: "Classic two-tone cap with adjustable strap and faith-inspired design.",
-    features: ["Two-Tone Design", "Adjustable Strap", "Structured Crown", "One Size Fits Most"]
+    sizes: ["S", "M", "L"],
+    description: "Classic two-tone cap with adjustable strap and Classic design.",
+    features: ["Two-Tone Design", "Adjustable Strap", "Structured Crown", "Available in Multiple Sizes"]
   },
   {
     id: 7,
-    name: "Worship Beanie",
-    price: 15,
-    category: "bonnets",
+    name: "Skull Cap",
+    price: 4000,
+    category: "caps",
     images: [
-      "/images/beanie1.jpg",
-      "/images/beanie2.jpg"
+      "/images/skull.jpg",
     ],
     sizes: ["One Size"],
     description: "Soft knit beanie to keep you warm while expressing your faith in style.",
@@ -114,22 +109,9 @@ const products = [
   },
   {
     id: 8,
-    name: "Redeemed Polo Shirt",
-    price: 35,
-    category: "shirts",
-    images: [
-      "/images/polo1.jpg",
-      "/images/polo2.jpg"
-    ],
-    sizes: ["S", "M", "L", "XL"],
-    description: "Classic polo with modern stripes and faith-based messaging. Smart casual perfection.",
-    features: ["Premium Cotton Blend", "Classic Polo Design", "Modern Stripes", "Faith-based Messaging"]
-  },
-  {
-    id: 9,
     name: "Redeemed Sweatpants",
-    price: 100,
-    category: "shirts",
+    price: 16500,
+    category: "sweatpants",
     images: [
       "/images/sp1.jpg",
       "/images/sp2.jpg",
@@ -140,6 +122,15 @@ const products = [
     description: "Classic polo with modern stripes and faith-based messaging. Smart casual perfection.",
     features: ["Premium Cotton Blend", "Classic Polo Design", "Modern Stripes", "Faith-based Messaging"]
   }
+];
+
+// Slideshow images for random wear
+const slideshowImages = [
+  "/images/shirt1.jpg",
+  "/images/white1.jpg",
+  "/images/hoodie1.jpg",
+  "/images/blackcap1.jpg",
+  "/images/sp1.jpg",
 ];
 
 // ============================================
@@ -236,6 +227,11 @@ function useCart() {
 }
 
 // ============================================
+// NAVIGATION HISTORY
+// ============================================
+const navigationHistory: string[] = [];
+
+// ============================================
 // NAVBAR COMPONENT
 // ============================================
 
@@ -245,6 +241,7 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handlePageChange = (page: string) => {
+    navigationHistory.push(page);
     setCurrentPage(page);
     localStorage.setItem('sage-current-page', page);
   };
@@ -255,7 +252,7 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
         <div onClick={() => handlePageChange('home')} className="flex items-center gap-3 cursor-pointer">
           <div className="relative w-12 h-12">
             <Image
-              src="/images/logo.jpg"
+              src="/images/logo.ico"
               alt="SAGE Logo"
               fill
               className="rounded-full object-cover"
@@ -274,6 +271,9 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
           </button>
           <button onClick={() => handlePageChange('about')} className="hover:text-gray-300 font-medium transition">
             About
+          </button>
+          <button onClick={() => handlePageChange('contact')} className="hover:text-gray-300 font-medium transition">
+            Contact
           </button>
           <a
             href="https://wa.me/2348137434165"
@@ -309,6 +309,9 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
           <button onClick={() => { handlePageChange('about'); setMobileOpen(false); }} className="block w-full text-left">
             About
           </button>
+          <button onClick={() => { handlePageChange('contact'); setMobileOpen(false); }} className="block w-full text-left">
+            Contact
+          </button>
           <a href="https://wa.me/2348137434165" className="block bg-green-500 text-white px-4 py-2 rounded-lg text-center">
             WhatsApp
           </a>
@@ -327,6 +330,7 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
 
 function Footer({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
   const handlePageChange = (page: string) => {
+    navigationHistory.push(page);
     setCurrentPage(page);
     localStorage.setItem('sage-current-page', page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -345,8 +349,7 @@ function Footer({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
             <div className="space-y-2 text-sm">
               <p onClick={() => handlePageChange('shop')} className="hover:text-white cursor-pointer transition text-gray-400">Shop All</p>
               <p onClick={() => handlePageChange('about')} className="hover:text-white cursor-pointer transition text-gray-400">About Us</p>
-              <p className="hover:text-white cursor-pointer transition text-gray-400">Shipping & Returns</p>
-              <p className="hover:text-white cursor-pointer transition text-gray-400">Contact Us</p>
+              <p onClick={() => handlePageChange('contact')} className="hover:text-white cursor-pointer transition text-gray-400">Contact Us</p>
             </div>
           </div>
           <div>
@@ -373,6 +376,62 @@ function Footer({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
 }
 
 // ============================================
+// SLIDESHOW COMPONENT
+// ============================================
+function Slideshow() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slideshowImages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <section className="py-20 px-6 bg-gray-50">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-5xl font-bold mb-4 text-black">See SAGE in Action</h2>
+          <p className="text-gray-600 text-lg">Real people, real faith, real style</p>
+        </div>
+        
+        <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl">
+          {slideshowImages.map((img, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <Image
+                src={img}
+                alt={`SAGE Style ${index + 1}`}
+                fill
+                className="object-contain bg-gray-100"
+                sizes="(max-width: 1200px) 100vw, 1200px"
+              />
+            </div>
+          ))}
+          
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
+            {slideshowImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 rounded-full transition ${
+                  index === currentSlide ? 'bg-white' : 'bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
 // HOME PAGE
 // ============================================
 
@@ -381,6 +440,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
   const latestDrops = products.filter(p => p.isLatestDrop);
 
   const handlePageChange = (page: string) => {
+    navigationHistory.push(page);
     setCurrentPage(page);
     localStorage.setItem('sage-current-page', page);
   };
@@ -448,21 +508,20 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
                   src={product.images[0]}
                   alt={product.name}
                   fill
-                  className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-700"
+                  className="w-full h-full object-contain bg-gray-50 group-hover:opacity-0 transition-opacity duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <Image
                   src={product.images[1] || product.images[0]}
                   alt={product.name}
                   fill
-                  className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                  className="absolute inset-0 w-full h-full object-contain bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
               <div className="p-6 text-center bg-white">
                 <h3 className="font-bold text-2xl mb-2 text-black">{product.name}</h3>
-                <p className="text-2xl font-bold text-red-600">${product.price}</p>
+                <p className="text-2xl font-bold text-red-600">₦{product.price.toLocaleString()}</p>
                 <button className="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
                   Shop Now
                 </button>
@@ -472,14 +531,12 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
         </div>
       </section>
 
+      {/* Slideshow Section */}
+      <Slideshow />
+
       {/* Features Section */}
       <section className="py-16 px-6 bg-white border-b">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="text-center">
-            <Truck className="w-12 h-12 mx-auto mb-4 text-black" />
-            <h3 className="font-bold text-lg mb-2 text-black">Free Shipping</h3>
-            <p className="text-gray-600 text-sm">On orders over $50</p>
-          </div>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
             <Shield className="w-12 h-12 mx-auto mb-4 text-black" />
             <h3 className="font-bold text-lg mb-2 text-black">Secure Payment</h3>
@@ -511,26 +568,25 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
               onClick={() => handleProductClick(product)}
               className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2"
             >
-              <div className="relative h-80 overflow-hidden">
+              <div className="relative h-80 overflow-hidden bg-gray-50">
                 <Image
                   src={product.images[0]}
                   alt={product.name}
                   fill
-                  className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
+                  className="w-full h-full object-contain group-hover:opacity-0 transition-opacity duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
                 <Image
                   src={product.images[1] || product.images[0]}
                   alt={product.name}
                   fill
-                  className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
               </div>
               <div className="p-6 text-center">
                 <h3 className="font-bold text-xl mb-2 text-black">{product.name}</h3>
-                <p className="text-lg font-semibold text-gray-900">${product.price}</p>
+                <p className="text-lg font-semibold text-gray-900">₦{product.price.toLocaleString()}</p>
               </div>
             </div>
           ))}
@@ -542,7 +598,7 @@ function HomePage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl font-bold mb-8 text-white">Our Mission</h2>
           <p className="text-xl text-gray-200 leading-relaxed mb-6">
-            SAGE is more than a clothing brand—it's a movement. We believe fashion and faith can coexist beautifully. 
+            SAGE is more than a clothing brand. it's a movement. We believe fashion and faith can coexist beautifully. 
             Every piece is designed to help you express your beliefs boldly and stylishly.
           </p>
           <p className="text-lg text-gray-300 leading-relaxed">
@@ -587,7 +643,7 @@ function ShopPage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
     { id: 'hoodies', name: 'Hoodies' },
     { id: 'caps', name: 'Caps' },
     { id: 'bags', name: 'Bags' },
-    { id: 'bonnets', name: 'Bonnets' },
+    { id: 'sweatpants', name: 'Sweatpants' },
   ];
 
   const filtered =
@@ -597,6 +653,7 @@ function ShopPage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
+    navigationHistory.push('product');
     setCurrentPage('product');
     localStorage.setItem('sage-current-page', 'product');
     localStorage.setItem('sage-selected-product', JSON.stringify(product));
@@ -630,25 +687,25 @@ function ShopPage({ setCurrentPage, setSelectedProduct }: { setCurrentPage: (pag
             onClick={() => handleProductClick(product)}
             className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2"
           >
-            <div className="relative h-80 overflow-hidden">
+            <div className="relative h-80 overflow-hidden bg-gray-50">
               <Image
                 src={product.images[0]}
                 alt={product.name}
                 fill
-                className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
+                className="w-full h-full object-contain group-hover:opacity-0 transition-opacity duration-500"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
               <Image
                 src={product.images[1] || product.images[0]}
                 alt={product.name}
                 fill
-                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
             </div>
             <div className="p-6 text-center">
               <h3 className="font-bold text-xl mb-2 text-black">{product.name}</h3>
-              <p className="text-lg font-semibold text-gray-900">${product.price}</p>
+              <p className="text-lg font-semibold text-gray-900">₦{product.price.toLocaleString()}</p>
             </div>
           </div>
         ))}
@@ -690,6 +747,7 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
   };
 
   const handlePageChange = (page: string) => {
+    navigationHistory.push(page);
     setCurrentPage(page);
     localStorage.setItem('sage-current-page', page);
   };
@@ -700,27 +758,38 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleBackButton = () => {
+    if (navigationHistory.length > 1) {
+      navigationHistory.pop(); // Remove current page
+      const previousPage = navigationHistory[navigationHistory.length - 1] || 'shop';
+      setCurrentPage(previousPage);
+      localStorage.setItem('sage-current-page', previousPage);
+    } else {
+      handlePageChange('shop');
+    }
+  };
+
   return (
     <div className="py-24 px-6 min-h-screen bg-white">
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
         <button
-          onClick={() => handlePageChange('shop')}
+          onClick={handleBackButton}
           className="flex items-center gap-2 text-gray-600 hover:text-black mb-8 transition"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Shop
+          Back
         </button>
 
         {/* Main Product Section */}
         <div className="grid lg:grid-cols-2 gap-12 mb-20">
           <div>
-            <div className="relative h-[600px] mb-4 rounded-2xl overflow-hidden shadow-xl">
+            <div className="relative h-[600px] mb-4 rounded-2xl overflow-hidden shadow-xl bg-gray-50">
               <Image
                 src={product.images[currentImageIndex]}
                 alt={product.name}
                 fill
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
               {product.isLatestDrop && (
@@ -734,7 +803,7 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
                 <div
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}
-                  className={`relative w-24 h-24 cursor-pointer border-4 transition rounded-lg flex-shrink-0 ${
+                  className={`relative w-24 h-24 cursor-pointer border-4 transition rounded-lg flex-shrink-0 bg-gray-50 ${
                     currentImageIndex === index ? 'border-black' : 'border-gray-200 hover:border-gray-400'
                   }`}
                 >
@@ -742,7 +811,7 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
                     src={img}
                     alt={`View ${index + 1}`}
                     fill
-                    className="object-cover rounded-lg"
+                    className="object-contain rounded-lg"
                     sizes="96px"
                   />
                 </div>
@@ -754,7 +823,7 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
             <div className="mb-6">
               <h1 className="text-5xl font-bold mb-4 text-black">{product.name}</h1>
               <div className="flex items-center gap-4 mb-4">
-                <p className="text-4xl font-bold text-black">${product.price}</p>
+                <p className="text-4xl font-bold text-black">₦{product.price.toLocaleString()}</p>
                 {product.isLatestDrop && (
                   <span className="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                     New Arrival
@@ -836,7 +905,7 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
                 className="w-full bg-black text-white py-5 rounded-lg text-xl font-bold hover:bg-gray-800 transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
               >
                 <ShoppingCart className="w-6 h-6" />
-                Add to Cart - ${(product.price * quantity).toFixed(2)}
+                Add to Cart - ₦{(product.price * quantity).toLocaleString()}
               </button>
               
               <div className="grid grid-cols-2 gap-4">
@@ -860,13 +929,6 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
             {/* Additional Info */}
             <div className="mt-10 pt-8 border-t border-gray-200 grid grid-cols-2 gap-6">
               <div className="flex items-center gap-3">
-                <Truck className="w-6 h-6 text-gray-600" />
-                <div>
-                  <p className="font-semibold text-black">Free Shipping</p>
-                  <p className="text-sm text-gray-600">On orders over $50</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6 text-gray-600" />
                 <div>
                   <p className="font-semibold text-black">Secure Payment</p>
@@ -887,6 +949,13 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
                   <p className="text-sm text-gray-600">Faith-inspired design</p>
                 </div>
               </div>
+              <div className="flex items-center gap-3">
+                <Truck className="w-6 h-6 text-gray-600" />
+                <div>
+                  <p className="font-semibold text-black">Fast Delivery</p>
+                  <p className="text-sm text-gray-600">Quick processing</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -905,19 +974,19 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
                 onClick={() => handleProductClick(recommendedProduct)}
                 className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2"
               >
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-64 overflow-hidden bg-gray-50">
                   <Image
                     src={recommendedProduct.images[0]}
                     alt={recommendedProduct.name}
                     fill
-                    className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
+                    className="w-full h-full object-contain group-hover:opacity-0 transition-opacity duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                   />
                   <Image
                     src={recommendedProduct.images[1] || recommendedProduct.images[0]}
                     alt={recommendedProduct.name}
                     fill
-                    className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    className="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
@@ -930,7 +999,7 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
                 <div className="p-6 text-center">
                   <h3 className="font-bold text-xl mb-2 text-black truncate">{recommendedProduct.name}</h3>
                   <div className="flex items-center justify-center gap-2 mb-3">
-                    <p className="text-lg font-semibold text-gray-900">${recommendedProduct.price}</p>
+                    <p className="text-lg font-semibold text-gray-900">₦{recommendedProduct.price.toLocaleString()}</p>
                     {recommendedProduct.category === product.category && (
                       <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
                         {recommendedProduct.category}
@@ -960,8 +1029,7 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
 }) {
   const { cart, addToCart, removeOne, removeAll, clearCart } = useCart();
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shipping = subtotal > 50 ? 0 : 5;
-  const total = subtotal + shipping;
+  const total = subtotal;
   
   // Get recommended products (exclude items already in cart)
   const cartProductIds = cart.map(item => item.id);
@@ -973,24 +1041,35 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
     if (cart.length === 0) return '#';
     let msg = 'New Order from SAGE\n\n';
     cart.forEach((item) => {
-      msg += `${item.quantity}x ${item.name}\n  Size: ${item.size}\n  Price: ${(item.price * item.quantity).toFixed(2)}\n\n`;
+      msg += `${item.quantity}x ${item.name}\n  Size: ${item.size}\n  Price: ₦${(item.price * item.quantity).toLocaleString()}\n\n`;
     });
-    msg += `Subtotal: ${subtotal.toFixed(2)}\n`;
-    msg += `Shipping: ${shipping.toFixed(2)}\n`;
-    msg += `Total: ${total.toFixed(2)}`;
+    msg += `Total: ₦${total.toLocaleString()}`;
     return `https://wa.me/2348137434165?text=${encodeURIComponent(msg)}`;
   };
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
+    navigationHistory.push('product');
     setCurrentPage('product');
     localStorage.setItem('sage-current-page', 'product');
     localStorage.setItem('sage-selected-product', JSON.stringify(product));
   };
 
   const handleBackToShop = () => {
+    navigationHistory.push('shop');
     setCurrentPage('shop');
     localStorage.setItem('sage-current-page', 'shop');
+  };
+
+  const handleBackButton = () => {
+    if (navigationHistory.length > 1) {
+      navigationHistory.pop();
+      const previousPage = navigationHistory[navigationHistory.length - 1] || 'shop';
+      setCurrentPage(previousPage);
+      localStorage.setItem('sage-current-page', previousPage);
+    } else {
+      handleBackToShop();
+    }
   };
 
   if (cart.length === 0) {
@@ -1001,7 +1080,7 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
           <h1 className="text-4xl font-bold mb-4 text-black">Your Cart is Empty</h1>
           <p className="text-gray-600 mb-8 text-lg">Looks like you haven&apos;t added anything yet!</p>
           <button
-            onClick={handleBackToShop}
+            onClick={handleBackButton}
             className="bg-black text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-800 transition flex items-center gap-2 mx-auto"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -1034,12 +1113,12 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
               
               {cart.map((item, idx) => (
                 <div key={`${item.id}-${item.size}-${idx}`} className="flex items-center gap-6 pb-8 mb-8 border-b last:border-b-0 last:pb-0 last:mb-0">
-                  <div className="relative w-32 h-32 flex-shrink-0">
+                  <div className="relative w-32 h-32 flex-shrink-0 bg-gray-50 rounded-lg">
                     <Image
                       src={item.images[0]}
                       alt={item.name}
                       fill
-                      className="object-cover rounded-lg shadow-md"
+                      className="object-contain rounded-lg shadow-md"
                       sizes="128px"
                     />
                   </div>
@@ -1047,7 +1126,7 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
                     <h3 className="font-bold text-2xl mb-1 text-black">{item.name}</h3>
                     <p className="text-gray-500 mb-2">Size: <span className="font-semibold">{item.size}</span></p>
                     <p className="text-lg font-semibold text-gray-900">
-                      ${item.price} x {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
+                      ₦{item.price.toLocaleString()} x {item.quantity} = ₦{(item.price * item.quantity).toLocaleString()}
                     </p>
                   </div>
                   <div className="flex items-center gap-3 flex-shrink-0">
@@ -1086,17 +1165,17 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
                       onClick={() => handleProductClick(product)}
                       className="group cursor-pointer"
                     >
-                      <div className="relative h-48 mb-3 rounded-xl overflow-hidden">
+                      <div className="relative h-48 mb-3 rounded-xl overflow-hidden bg-gray-50">
                         <Image
                           src={product.images[0]}
                           alt={product.name}
                           fill
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                           sizes="(max-width: 768px) 50vw, 25vw"
                         />
                       </div>
                       <h3 className="font-semibold text-black truncate">{product.name}</h3>
-                      <p className="font-bold text-gray-900">${product.price}</p>
+                      <p className="font-bold text-gray-900">₦{product.price.toLocaleString()}</p>
                     </div>
                   ))}
                 </div>
@@ -1110,22 +1189,9 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
               <h2 className="text-2xl font-bold mb-6 text-black">Order Summary</h2>
               
               <div className="space-y-4 mb-6">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Subtotal:</span>
-                  <span className="font-semibold text-black">${subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Shipping:</span>
-                  <span className="font-semibold text-black">{shipping === 0 ? 'FREE' : `${shipping.toFixed(2)}`}</span>
-                </div>
-                {subtotal > 0 && subtotal < 50 && (
-                  <p className="text-sm text-green-600 bg-green-50 p-3 rounded-lg">
-                    Add ${(50 - subtotal).toFixed(2)} more for free shipping!
-                  </p>
-                )}
                 <div className="border-t pt-4 flex justify-between text-2xl font-bold">
                   <span className="text-black">Total:</span>
-                  <span className="text-black">${total.toFixed(2)}</span>
+                  <span className="text-black">₦{total.toLocaleString()}</span>
                 </div>
               </div>
               
@@ -1139,7 +1205,7 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
                   Order via WhatsApp
                 </a>
                 <button
-                  onClick={handleBackToShop}
+                  onClick={handleBackButton}
                   className="w-full border-2 border-black text-black py-4 rounded-lg text-lg font-semibold hover:bg-black hover:text-white transition flex items-center justify-center gap-2"
                 >
                   <ArrowLeft className="w-5 h-5" />
@@ -1159,8 +1225,8 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
                 <div className="flex items-start gap-3">
                   <Truck className="w-5 h-5 text-gray-600 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-black">Free Shipping</p>
-                    <p className="text-sm text-gray-600">On orders over $50</p>
+                    <p className="font-semibold text-black">Fast Delivery</p>
+                    <p className="text-sm text-gray-600">Quick processing time</p>
                   </div>
                 </div>
               </div>
@@ -1183,7 +1249,7 @@ function AboutPage() {
         <h1 className="text-5xl font-bold text-center mb-12 text-black">About SAGE</h1>
         <div className="space-y-6 text-lg leading-relaxed text-gray-700">
           <p>
-            Founded in 2019, SAGE is more than a clothing brand—it&apos;s a faith movement. We believe that fashion and faith 
+            Founded in 2025, SAGE is more than a clothing brand it&apos;s a faith movement. We believe that fashion and faith 
             are not mutually exclusive. Our mission is to create contemporary Christian apparel that empowers believers 
             to express their faith boldly and stylishly in everyday life.
           </p>
@@ -1193,12 +1259,196 @@ function AboutPage() {
           </p>
           <p>
             From our signature faith-based tees to our statement hoodies, SAGE represents a lifestyle of walking in 
-            purpose, dressed in faith. Join us in spreading the Gospel through fashion—one outfit at a time.
+            purpose, dressed in faith. Join us in spreading the Gospel through fashion one outfit at a time.
           </p>
           <p className="text-xl font-semibold text-black italic text-center mt-8">
             &quot;Therefore, as God&apos;s chosen people, holy and dearly loved, clothe yourselves with compassion, 
             kindness, humility, gentleness and patience.&quot; - Colossians 3:12
           </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// CONTACT PAGE
+// ============================================
+
+function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const whatsappMessage = `*New Contact Form Submission*\n\nName: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}`;
+    window.open(`https://wa.me/2348137434165?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  return (
+    <div className="py-24 px-6 min-h-screen bg-gray-50">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-5xl font-bold text-center mb-4 text-black">Contact Us</h1>
+        <p className="text-center text-gray-600 mb-12 text-lg">Get in touch with the SAGE team</p>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Contact Information */}
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <h2 className="text-3xl font-bold mb-8 text-black">Get In Touch</h2>
+            
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-black text-white p-3 rounded-lg">
+                  <Phone className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-black mb-1">Phone</h3>
+                  <p className="text-gray-600">+234 813 743 4165</p>
+                  <a
+                    href="https://wa.me/2348137434165"
+                    className="text-green-600 hover:text-green-700 font-semibold inline-block mt-2"
+                  >
+                    WhatsApp Us →
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="bg-black text-white p-3 rounded-lg">
+                  <Mail className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-black mb-1">Email</h3>
+                  <p className="text-gray-600">support@sagewears.com</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="bg-black text-white p-3 rounded-lg">
+                  <MapPin className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-black mb-1">Location</h3>
+                  <p className="text-gray-600">Lagos, Nigeria</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-10 pt-8 border-t border-gray-200">
+              <h3 className="font-bold text-lg text-black mb-4">Follow Us</h3>
+              <div className="flex gap-4">
+                <a
+                  href="https://www.instagram.com/sagewearsbrand/#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-100 p-3 rounded-lg hover:bg-black hover:text-white transition text-black"
+                >
+                  <Instagram className="w-6 h-6" />
+                </a>
+                <a
+                  href="https://www.tiktok.com/@sagewearsbrand"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-100 p-3 rounded-lg hover:bg-black hover:text-white transition text-black"
+                >
+                  <TikTokIcon />
+                </a>
+                <a
+                  href="https://www.facebook.com/101567422567950"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-100 p-3 rounded-lg hover:bg-black hover:text-white transition text-black"
+                >
+                  <Facebook className="w-6 h-6" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <h2 className="text-3xl font-bold mb-8 text-black">Send Us A Message</h2>
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-black mb-2">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:outline-none text-black"
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-black mb-2">
+                  Your Email *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:outline-none text-black"
+                  placeholder="john@example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-black mb-2">
+                  Subject *
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:outline-none text-black"
+                  placeholder="How can we help you?"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-black mb-2">
+                  Message *
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={6}
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:outline-none text-black resize-none"
+                  placeholder="Tell us more about your inquiry..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-black text-white py-4 rounded-lg text-lg font-bold hover:bg-gray-800 transition transform hover:scale-105"
+              >
+                Send Message via WhatsApp
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -1231,6 +1481,22 @@ export default function App() {
     }
     
     setIsLoading(false);
+
+    // Handle browser back button
+    const handlePopState = () => {
+      if (navigationHistory.length > 0) {
+        navigationHistory.pop();
+        const previousPage = navigationHistory[navigationHistory.length - 1] || 'home';
+        setCurrentPage(previousPage);
+        localStorage.setItem('sage-current-page', previousPage);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
   if (isLoading) {
@@ -1266,6 +1532,7 @@ export default function App() {
             <CartPage setCurrentPage={setCurrentPage} setSelectedProduct={setSelectedProduct} />
           )}
           {currentPage === 'about' && <AboutPage />}
+          {currentPage === 'contact' && <ContactPage />}
         </main>
         <Footer setCurrentPage={setCurrentPage} />
       </div>
