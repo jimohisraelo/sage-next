@@ -91,9 +91,9 @@ const products = [
       "/images/cap1.jpg",
       "/images/cap2.jpg"
     ],
-    sizes: ["S", "M", "L"],
+    sizes: ["Black/White", "Red", "Navy", "Khaki", "Brown"], // Changed to colors
     description: "Classic two-tone cap with adjustable strap and Classic design.",
-    features: ["Two-Tone Design", "Adjustable Strap", "Structured Crown", "Available in Multiple Sizes"]
+    features: ["Two-Tone Design", "Adjustable Strap", "Structured Crown", "Available in Multiple Colors"]
   },
   {
     id: 7,
@@ -130,6 +130,8 @@ const slideshowImages = [
   "/images/white1.jpg",
   "/images/hoodie1.jpg",
   "/images/blackcap1.jpg",
+  "/images/sp1.jpg",
+  "/images/sp1.jpg",
   "/images/sp1.jpg",
 ];
 
@@ -226,6 +228,32 @@ function useCart() {
   return context;
 }
 
+// Toast Notification Component
+function Toast({ message, show, onClose }: { message: string; show: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (show) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [show, onClose]);
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed top-24 right-6 z-50 animate-slideIn">
+      <div className="bg-black text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3">
+        <Check className="w-5 h-5 text-green-400" />
+        <span className="font-semibold">{message}</span>
+        <button onClick={onClose} className="ml-4 text-gray-400 hover:text-white">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ============================================
 // NAVIGATION HISTORY
 // ============================================
@@ -241,14 +269,14 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handlePageChange = (page: string) => {
-    navigationHistory.push(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setCurrentPage(page);
-    localStorage.setItem('sage-current-page', page);
   };
 
   return (
     <nav className="fixed top-0 w-full bg-black shadow-lg z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        {/* Logo */}
         <div onClick={() => handlePageChange('home')} className="flex items-center gap-3 cursor-pointer">
           <div className="relative w-12 h-12">
             <Image
@@ -262,6 +290,7 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
           <span className="text-2xl font-bold text-white">SAGE</span>
         </div>
 
+        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6 text-white">
           <button onClick={() => handlePageChange('home')} className="hover:text-gray-300 font-medium transition">
             Home
@@ -293,31 +322,44 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
           </button>
         </div>
 
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-white">
-          {mobileOpen ? <X /> : <Menu />}
-        </button>
+        {/* Mobile Navigation - Cart icon beside menu */}
+        <div className="md:hidden flex items-center gap-4">
+          <button onClick={() => handlePageChange('cart')} className="relative text-white">
+            <ShoppingCart className="w-6 h-6" />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                {cartCount}
+              </span>
+            )}
+          </button>
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="text-white">
+            {mobileOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
 
+      {/* Mobile Menu Dropdown */}
       {mobileOpen && (
         <div className="md:hidden bg-black border-t border-gray-800 px-6 py-4 space-y-3 text-white">
-          <button onClick={() => { handlePageChange('home'); setMobileOpen(false); }} className="block w-full text-left">
+          <button onClick={() => { handlePageChange('home'); setMobileOpen(false); }} className="block w-full text-left py-2">
             Home
           </button>
-          <button onClick={() => { handlePageChange('shop'); setMobileOpen(false); }} className="block w-full text-left">
+          <button onClick={() => { handlePageChange('shop'); setMobileOpen(false); }} className="block w-full text-left py-2">
             Shop
           </button>
-          <button onClick={() => { handlePageChange('about'); setMobileOpen(false); }} className="block w-full text-left">
+          <button onClick={() => { handlePageChange('about'); setMobileOpen(false); }} className="block w-full text-left py-2">
             About
           </button>
-          <button onClick={() => { handlePageChange('contact'); setMobileOpen(false); }} className="block w-full text-left">
+          <button onClick={() => { handlePageChange('contact'); setMobileOpen(false); }} className="block w-full text-left py-2">
             Contact
           </button>
-          <a href="https://wa.me/2348137434165" className="block bg-green-500 text-white px-4 py-2 rounded-lg text-center">
-            WhatsApp
+          <a 
+            href="https://wa.me/2348137434165" 
+            className="block bg-green-500 text-white px-4 py-2 rounded-lg text-center mt-4"
+            onClick={() => setMobileOpen(false)}
+          >
+            WhatsApp Order
           </a>
-          <button onClick={() => { handlePageChange('cart'); setMobileOpen(false); }} className="block w-full text-left">
-            Cart ({cartCount})
-          </button>
         </div>
       )}
     </nav>
@@ -330,10 +372,8 @@ function Navbar({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
 
 function Footer({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
   const handlePageChange = (page: string) => {
-    navigationHistory.push(page);
-    setCurrentPage(page);
-    localStorage.setItem('sage-current-page', page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setCurrentPage(page);
   };
 
   return (
@@ -726,6 +766,7 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [showToast, setShowToast] = useState(false);
   const { addToCart } = useCart();
 
   // Get recommended products (same category, excluding current product)
@@ -743,30 +784,31 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
 
   const handleAddToCart = () => {
     addToCart(product, selectedSize);
-    alert(`Added ${product.name} (${selectedSize}) to cart!`);
+    setShowToast(true);
   };
 
   const handlePageChange = (page: string) => {
-    navigationHistory.push(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setCurrentPage(page);
-    localStorage.setItem('sage-current-page', page);
   };
 
   const handleProductClick = (clickedProduct: Product) => {
     setSelectedProduct(clickedProduct);
-    localStorage.setItem('sage-selected-product', JSON.stringify(clickedProduct));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackButton = () => {
-    if (navigationHistory.length > 1) {
-      navigationHistory.pop(); // Remove current page
-      const previousPage = navigationHistory[navigationHistory.length - 1] || 'shop';
-      setCurrentPage(previousPage);
-      localStorage.setItem('sage-current-page', previousPage);
-    } else {
-      handlePageChange('shop');
-    }
+    window.history.back();
+  };
+
+  // Color-specific styling for Tucker Cap
+  const isTuckerCap = product.id === 6;
+  const colorStyles: Record<string, string> = {
+    "Black/White": "border-gray-900 bg-gradient-to-r from-gray-900 to-gray-100",
+    "Red": "border-red-600 bg-gradient-to-r from-red-600 to-red-400",
+    "Navy": "border-blue-900 bg-gradient-to-r from-blue-900 to-blue-600",
+    "Khaki": "border-yellow-800 bg-gradient-to-r from-yellow-800 to-yellow-400",
+    "Brown": "border-amber-900 bg-gradient-to-r from-amber-900 to-amber-600"
   };
 
   return (
@@ -848,12 +890,14 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
               </div>
             )}
 
-            {/* Size Selection */}
+            {/* Size/Color Selection */}
             <div className="mb-10">
               <div className="flex items-center justify-between mb-4">
-                <label className="font-bold text-xl text-black">Select Size:</label>
+                <label className="font-bold text-xl text-black">
+                  {isTuckerCap ? 'Select Color:' : 'Select Size:'}
+                </label>
                 <button className="text-sm text-gray-600 hover:text-black transition">
-                  Size Guide
+                  {isTuckerCap ? 'Color Guide' : 'Size Guide'}
                 </button>
               </div>
               <div className="flex gap-3 flex-wrap">
@@ -861,11 +905,13 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`px-8 py-4 border-2 rounded-lg font-bold transition transform hover:scale-105 ${
-                      selectedSize === size
-                        ? 'bg-black text-white border-black'
-                        : 'border-gray-300 hover:border-black text-black'
-                    }`}
+                    className={`
+                      px-8 py-4 rounded-lg font-bold transition transform hover:scale-105
+                      ${isTuckerCap 
+                        ? `border-4 ${colorStyles[size] || 'border-gray-300'} ${selectedSize === size ? 'ring-4 ring-yellow-400 ring-opacity-50' : ''} text-white shadow-lg hover:shadow-xl` 
+                        : `border-2 ${selectedSize === size ? 'bg-black text-white border-black' : 'border-gray-300 hover:border-black text-black'}`
+                      }
+                    `}
                   >
                     {size}
                   </button>
@@ -892,9 +938,6 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
                     +
                   </button>
                 </div>
-                <div className="text-gray-600">
-                  Only {Math.floor(Math.random() * 20) + 5} items left!
-                </div>
               </div>
             </div>
 
@@ -910,7 +953,7 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
               
               <div className="grid grid-cols-2 gap-4">
                 <a
-                  href={`https://wa.me/2348137434165?text=${encodeURIComponent(`I want to order: ${product.name} (Size: ${selectedSize}, Quantity: ${quantity})`)}`}
+                  href={`https://wa.me/2348137434165?text=${encodeURIComponent(`I want to order: ${product.name} (${isTuckerCap ? 'Color' : 'Size'}: ${selectedSize}, Quantity: ${quantity})`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-green-600 text-white py-4 rounded-lg text-lg font-bold hover:bg-green-700 transition text-center"
@@ -1015,6 +1058,13 @@ function ProductPage({ product, setCurrentPage, setSelectedProduct }: {
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      <Toast 
+        message={`Added ${product.name} (${selectedSize}) to cart!`} 
+        show={showToast} 
+        onClose={() => setShowToast(false)} 
+      />
     </div>
   );
 }
@@ -1041,7 +1091,7 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
     if (cart.length === 0) return '#';
     let msg = 'New Order from SAGE\n\n';
     cart.forEach((item) => {
-      msg += `${item.quantity}x ${item.name}\n  Size: ${item.size}\n  Price: ₦${(item.price * item.quantity).toLocaleString()}\n\n`;
+      msg += `${item.quantity}x ${item.name}\n  ${item.id === 6 ? 'Color' : 'Size'}: ${item.size}\n  Price: ₦${(item.price * item.quantity).toLocaleString()}\n\n`;
     });
     msg += `Total: ₦${total.toLocaleString()}`;
     return `https://wa.me/2348137434165?text=${encodeURIComponent(msg)}`;
@@ -1049,27 +1099,11 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
-    navigationHistory.push('product');
-    setCurrentPage('product');
-    localStorage.setItem('sage-current-page', 'product');
-    localStorage.setItem('sage-selected-product', JSON.stringify(product));
-  };
-
-  const handleBackToShop = () => {
-    navigationHistory.push('shop');
-    setCurrentPage('shop');
-    localStorage.setItem('sage-current-page', 'shop');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackButton = () => {
-    if (navigationHistory.length > 1) {
-      navigationHistory.pop();
-      const previousPage = navigationHistory[navigationHistory.length - 1] || 'shop';
-      setCurrentPage(previousPage);
-      localStorage.setItem('sage-current-page', previousPage);
-    } else {
-      handleBackToShop();
-    }
+    window.history.back();
   };
 
   if (cart.length === 0) {
@@ -1124,7 +1158,9 @@ function CartPage({ setCurrentPage, setSelectedProduct }: {
                   </div>
                   <div className="flex-grow">
                     <h3 className="font-bold text-2xl mb-1 text-black">{item.name}</h3>
-                    <p className="text-gray-500 mb-2">Size: <span className="font-semibold">{item.size}</span></p>
+                    <p className="text-gray-500 mb-2">
+                      {item.id === 6 ? 'Color' : 'Size'}: <span className="font-semibold">{item.size}</span>
+                    </p>
                     <p className="text-lg font-semibold text-gray-900">
                       ₦{item.price.toLocaleString()} x {item.quantity} = ₦{(item.price * item.quantity).toLocaleString()}
                     </p>
@@ -1462,53 +1498,11 @@ function ContactPage() {
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
+  // Scroll to top on page change
   useEffect(() => {
-    const savedPage = localStorage.getItem('sage-current-page');
-    const savedProduct = localStorage.getItem('sage-selected-product');
-    
-    if (savedPage) {
-      setCurrentPage(savedPage);
-    }
-    
-    if (savedProduct && (savedPage === 'product' || savedPage === 'shop')) {
-      try {
-        setSelectedProduct(JSON.parse(savedProduct));
-      } catch (error) {
-        console.error('Failed to load product:', error);
-      }
-    }
-    
-    setIsLoading(false);
-
-    // Handle browser back button
-    const handlePopState = () => {
-      if (navigationHistory.length > 0) {
-        navigationHistory.pop();
-        const previousPage = navigationHistory[navigationHistory.length - 1] || 'home';
-        setCurrentPage(previousPage);
-        localStorage.setItem('sage-current-page', previousPage);
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-black font-semibold">Loading SAGE...</p>
-        </div>
-      </div>
-    );
-  }
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   return (
     <CartProvider>
