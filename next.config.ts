@@ -18,6 +18,10 @@ const nextConfig = {
       // Ensure proper module resolution
     }
   },
+    reactStrictMode: true,
+  images: {
+    unoptimized: process.env.NODE_ENV === 'development', // For development
+  },
 }
 
 module.exports = nextConfig
