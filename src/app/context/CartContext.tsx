@@ -38,7 +38,6 @@ export const products = [
     ],
     sizes: ["S", "M", "L", "XL"],
     description: "Premium cotton T-shirt with faith-inspired design. Soft, breathable, and perfect for everyday wear while expressing your faith.",
-    isLatestDrop: true,
     features: ["100% Premium Cotton", "Machine Washable", "Unisex Fit", "Faith-inspired Design"]
   },
   {
@@ -126,7 +125,7 @@ export const products = [
   {
     id: 8,
     name: "Black Sweatpants",
-    price: 16000,
+    price: 20000,
     category: "sweatpants",
     images: [
       "/images/sp1.jpg",
@@ -146,9 +145,10 @@ export const products = [
     images: [
       "/images/snapback.jpg",
     ],
-    sizes: ["S", "M", "L", "XL"],
+    sizes: ["One Size"],
+    isLatestDrop: true,
     description: "Classic polo with modern stripes and faith-based messaging. Smart casual perfection.",
-    features: ["Premium Cotton Blend", "Classic Polo Design", "Modern Stripes", "Faith-based Messaging"]
+    features: ["Soft Acrylic Blend", "Stretchy Fit", "Warm & Cozy", "Faith-inspired Logo"]
   }
 ];
 
